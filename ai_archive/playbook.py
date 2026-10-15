@@ -23,6 +23,28 @@ def load_playbook(path=None):
     return json.loads(Path(PLAYBOOK if path is None else path).read_text(encoding='utf-8'))
 
 
+def render_ecosystem_footer(local_note):
+    """Simple outbound links keep the local app free of social widgets."""
+    links = [
+        ('Instagram', 'https://www.instagram.com/weeyuga?psln=emk2cHYwdW4zNmM4'),
+        ('LinkedIn', 'https://www.linkedin.com/in/slobodan-margeti%C4%87-9a1229151/'),
+        ('X', 'https://x.com/WeeyugaFounder'),
+        ('Facebook', 'https://www.facebook.com/share/1GhcVRJ7vo/'),
+    ]
+    social_links = ''.join(
+        f'<a href="{html.escape(url, quote=True)}" target="_blank" rel="noopener noreferrer" '
+        f'aria-label="{label} (opens in a new tab)">{label}<span aria-hidden="true"> ↗</span></a>'
+        for label, url in links
+    )
+    return f'''<footer class="ecosystem-footer" id="community"><div class="ecosystem-content">
+    <div class="ecosystem-copy"><p class="ecosystem-label">MADE WITH WEEYUGA</p>
+    <p class="ecosystem-title">Part of the <a href="https://weeyuga.com" target="_blank" rel="noopener noreferrer" aria-label="Weeyuga apps ecosystem (opens in a new tab)">Weeyuga apps ecosystem<span aria-hidden="true"> ↗</span></a>.</p>
+    <p class="ecosystem-invitation">Like what I’m building? Follow me, or support the project if you can.</p></div>
+    <nav class="ecosystem-links" aria-label="Follow Weeyuga and support the project">{social_links}
+    <a class="ecosystem-support" href="https://github.com/sponsors/slobodanmargetic988" target="_blank" rel="noopener noreferrer" aria-label="Support on GitHub (opens in a new tab)">Support on GitHub<span aria-hidden="true"> ↗</span></a></nav>
+    <p class="ecosystem-local">{html.escape(local_note)}</p></div></footer>'''
+
+
 def render_empty_playbook(origin='http://127.0.0.1:8765'):
     """Explain the local, AI-assisted workflow without shipping anyone's draft."""
     title = 'Your app playbook'
@@ -48,7 +70,7 @@ def render_empty_playbook(origin='http://127.0.0.1:8765'):
     <li>Have it prepare two versions: a clean playbook for everyday use, and the same playbook with evidence for checking the sources.</li>
     <li>Review and edit the draft before using it as instructions for a new app.</li></ol>
     <p class="qualification">The app collects and previews your history. Playbook analysis currently happens through an AI assistant; there is no built-in generation button.</p></article></section></main>
-    <footer>Private and local · Your conversations and playbook stay on your computer.</footer></body></html>'''
+    {render_ecosystem_footer('Private and local · Your conversations and playbook stay on your computer.')}</body></html>'''
 
 
 def plain_text(book, origin='http://127.0.0.1:8765', *, include_evidence=True):
@@ -289,7 +311,7 @@ def render_playbook(book, origin='http://127.0.0.1:8765'):
     <details class="methodology"><summary>About the evidence</summary><p>{esc(book['methodology'])}</p>
     <p>The archive snapshot contains {stats['messages']:,} human messages in {stats['projects']} project/workspace groups; {stats['messages_with_previous_reply']:,} have a captured preceding final reply.
     Uncertain or automated records are excluded from the draft.</p></details></main>
-    <footer>Private and local · Open a source message to read its original AI reply context.</footer></body></html>'''
+    {render_ecosystem_footer('Private and local · Open a source message to read its original AI reply context.')}</body></html>'''
 
 
 if __name__ == '__main__':

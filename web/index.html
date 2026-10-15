@@ -58,7 +58,17 @@
           <div class="date-filters" id="date-filters" hidden><label>From <input type="date" id="date-from"></label><label>Through <input type="date" id="date-to"></label><button class="text-button" type="button" id="clear-dates">Clear dates</button><span class="date-note">Date filters use UTC.</span></div>
           <div class="archive-body" id="archive-body"><aside class="thread-panel" id="thread-panel" aria-label="Project conversations" hidden><div class="thread-panel-heading"><span>CONVERSATIONS</span><span id="thread-count"></span></div><button class="thread-item active" type="button" id="all-threads">All conversations<span>Project timeline</span></button><div id="thread-list"></div></aside><div class="timeline-panel"><div class="results-bar"><span id="results-count" role="status" aria-live="polite">Loading messages…</span><span class="chronology-label"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5 3v10m-3-3 3 3 3-3m2-7h4m-4 4h3m-3 4h2"/></svg>Oldest first</span></div><div id="messages" class="messages" aria-busy="true"><div class="message-skeleton"></div><div class="message-skeleton"></div></div><div class="pagination" id="pagination" hidden><button class="secondary-button" id="previous-page" type="button">← Previous</button><span id="page-label"></span><button class="secondary-button" id="next-page" type="button">Next →</button></div></div></div>
         </section>
-        <footer class="main-footer"><span>Built from your prompts. Ready for what comes next.</span><span><span class="status-dot"></span> <span id="footer-origin">Human messages only</span></span></footer>
+        <footer class="ecosystem-footer" id="community">
+          <div class="ecosystem-copy"><p class="ecosystem-label">MADE WITH WEEYUGA</p><p class="ecosystem-title">Part of the <a href="https://weeyuga.com" target="_blank" rel="noopener noreferrer" aria-label="Weeyuga apps ecosystem (opens in a new tab)">Weeyuga apps ecosystem<span aria-hidden="true"> ↗</span></a>.</p><p class="ecosystem-invitation">Like what I’m building? Follow me, or support the project if you can.</p></div>
+          <nav class="ecosystem-links" aria-label="Follow Weeyuga and support the project">
+            <a href="https://www.instagram.com/weeyuga?psln=emk2cHYwdW4zNmM4" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in a new tab)">Instagram<span aria-hidden="true"> ↗</span></a>
+            <a href="https://www.linkedin.com/in/slobodan-margeti%C4%87-9a1229151/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)">LinkedIn<span aria-hidden="true"> ↗</span></a>
+            <a href="https://x.com/WeeyugaFounder" target="_blank" rel="noopener noreferrer" aria-label="X (opens in a new tab)">X<span aria-hidden="true"> ↗</span></a>
+            <a href="https://www.facebook.com/share/1GhcVRJ7vo/" target="_blank" rel="noopener noreferrer" aria-label="Facebook (opens in a new tab)">Facebook<span aria-hidden="true"> ↗</span></a>
+            <a class="ecosystem-support" href="https://github.com/sponsors/slobodanmargetic988" target="_blank" rel="noopener noreferrer" aria-label="Support on GitHub (opens in a new tab)">Support on GitHub<span aria-hidden="true"> ↗</span></a>
+          </nav>
+          <div class="main-footer"><span>Built from your prompts. Ready for what comes next.</span><span><span class="status-dot"></span> <span id="footer-origin">Human messages only</span></span></div>
+        </footer>
       </div>
     </main>
   </div>

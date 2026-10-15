@@ -4,16 +4,21 @@ A local archive of the instructions you gave Codex and Claude. Browse your words
 
 ## Use it
 
-Python 3.11 or later, with SQLite FTS5 support. There are no packages to install, accounts to connect, or remote services.
+Start with the [static setup guide](https://myaiplaybook.weeyuga.com/) or give your local coding agent [the setup and playbook instructions](docs/AGENT_SETUP.md). The guide includes a copyable task covering collection, context review and both playbook versions.
+
+Python 3.11 or later, with SQLite FTS5 support. There are no packages to install, accounts to connect, or remote services for collection and browsing.
 
 ```sh
 git clone https://github.com/slobodanmargetic988/WhoIamWithAI.git
 cd WhoIamWithAI
-python3 -m ai_archive import
-python3 -m ai_archive serve
+python3 start.py --collect --open
 ```
 
-Open [your archive](http://127.0.0.1:8765). On macOS you can also double-click `Start.command` to open the app. The database is `data/archive.sqlite3`. Refresh in the app after another import.
+On Windows, use `py -3 start.py --collect --open` instead. Without Git, use GitHub's **Code → Download ZIP**, extract the folder, then run its launcher. Double-click **Start.bat** on Windows or **Start.command** on macOS; on Linux run `sh Start.sh`. The menu offers collection or browsing an existing archive. It checks Python/search support and preserves existing messages. Python must be installed first; the launchers do not install software or require admin access. Native Windows execution has not been verified on the current development machine.
+
+Open [your archive](http://127.0.0.1:8765). Keep the launcher window open while browsing; press Ctrl+C there to stop. The database is `data/archive.sqlite3`. Run collection again and refresh the app to see new messages. A large first collection can take a while.
+
+For an agent working in stages, run `python3 start.py --check`, then `python3 start.py --collect-only`, then start `python3 start.py --browse --open` in a retained process. Windows uses `py -3` instead of `python3`. The underlying `python3 -m ai_archive import` and `serve` commands remain available.
 
 The interface provides project and thread navigation, chronological messages, full-text search, provider and inclusive UTC date filters, pagination, message copying, and file/line provenance. Timestamps display in your browser's local time. A separate **Needs review** view retains inputs whose human authorship cannot be established from the available records.
 
@@ -72,7 +77,14 @@ Aliases supplied by you override inferred mappings. Project assignments are refr
 
 See [the database design](docs/DATABASE.md) and the executable [schema](ai_archive/schema.sql). A single SQLite file holds the archive; stable message IDs let later requirement/playbook records cite the original evidence.
 
-The app can display a locally prepared [playbook draft](http://127.0.0.1:8765/playbook), with source quotations and links that open the exact human message with its preceding AI reply expanded. The **Show full conversation** action restores the surrounding thread. **Copy link** creates the same thread-specific link for any message. When a draft is present, `/playbook.txt` downloads reusable agent instructions. Private generated content lives in `data/customer-facing-app-playbook.json` and `.txt`.
+The app can display a locally prepared [playbook draft](http://127.0.0.1:8765/playbook), with source quotations and links that open the exact human message with its preceding AI reply expanded. The **Show full conversation** action restores the surrounding thread. **Copy link** creates the same thread-specific link for any message.
+
+Ask your agent to follow [AGENT_SETUP.md](docs/AGENT_SETUP.md) and [the playbook format](docs/PLAYBOOK_FORMAT.md), prepare a local draft JSON and run `python3 -m ai_archive.playbook --write-outputs` (Windows: `py -3 -m ai_archive.playbook --write-outputs`). This validates evidence against your archive and writes two editable versions with the same core rules:
+
+- `data/playbook.md` and `.txt`: clean instructions, without quotations, citations, source IDs or research notes. This is the default download.
+- `data/playbook-with-evidence.md` and `.txt`: the same instructions with source messages and context for review.
+
+Both versions stay local. Source-linked preview data lives in `data/customer-facing-app-playbook.json`. The export command formats and validates an agent-prepared draft; it does not call AI or infer requirements by itself.
 
 This repository includes no personal archive, researched playbook, source-message identifiers or AI credentials. A fresh installation starts empty. Import your own local histories, then use an AI assistant of your choice to review the archive and propose requirements with message citations. Automatic AI playbook generation and in-app editing are not implemented. The playbook renderer is included; the original owner's research script and generated content are excluded.
 
@@ -83,11 +95,19 @@ Read-only local endpoints:
 - `/api/messages?origin=review` for uncertain inputs
 - `/api/messages?message_id=...&thread_id=...` for an exact, thread-specific citation
 - `/api/export` downloads human messages as JSONL with the same filters and provenance. Add `origin=review` when explicitly exporting uncertain inputs.
-- `/playbook` and `/playbook.txt` provide the local reviewed draft and portable agent instructions.
+- `/playbook` previews the local draft; `/playbook-clean.txt` downloads clean instructions and `/playbook-with-evidence.txt` downloads the evidence version. `/playbook.txt` remains an alias for the evidence version.
 
 The app binds to `127.0.0.1`, validates the request host, blocks cross-site API reads, serves no database/source files, and uses no remote assets or analytics. The database and generated reports are ignored by Git; new archive files have owner-only permissions. Source messages are intentionally retained verbatim and may contain information you previously included in prompts. This local server is not an authenticated public hosting solution.
 
 When sharing the application, share the source repository rather than a copy of your working folder. Keep `data/`, exports, raw transcripts, credentials and private research local. The ignore rules exclude these common locations and file types; explicitly adding or force-adding private files can still bypass them. No AI provider credentials are needed to collect or browse local histories. Sending archive content to a separate AI service is a decision you make outside this application.
+
+## Hosting the static guide
+
+Upload only the repository-root **`index.html`** to the document root for `myaiplaybook.weeyuga.com`. It contains its own CSS, illustrations, favicon and small copy/download script. No installation, backend, database, account system or visitor upload is involved. The social preview image is a public branded image served from this GitHub repository, so it does not need a second file on the shared host. The guide has no analytics or third-party scripts.
+
+The guide's canonical and Open Graph URLs are `https://myaiplaybook.weeyuga.com/`. Change those URLs if hosting it somewhere else. HTTPS, the returned page at that domain and social-platform caching can only be verified after upload. **Do not upload `data/`, the Python application, local exports or generated playbooks.** The app's `web/index.html` is its local archive interface; it is different from the root `index.html` hosting guide.
+
+The source repository is public; each user's history is private. A chosen cloud-backed AI agent may process messages through its provider when reading local files. The static guide does not receive archive content, and local storage alone is not a promise of offline AI analysis.
 
 ## Social previews
 

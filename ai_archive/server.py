@@ -277,7 +277,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == '/health':
             self.reply(200, {'status': 'ok'})
             return
-        if path in {'/playbook', '/playbook.txt'}:
+        if path in {'/playbook', '/playbook.txt', '/playbook-clean.txt', '/playbook-with-evidence.txt'}:
             from .playbook import load_playbook, render_playbook, render_empty_playbook, plain_text
             origin = self.server.public_origin or f'http://127.0.0.1:{self.server.server_port}'
             try:
@@ -292,8 +292,12 @@ class Handler(BaseHTTPRequestHandler):
                 self.reply(404, {'error': 'The playbook draft is not available yet.'})
                 return
             if path.endswith('.txt'):
-                self.reply(200, plain_text(book, origin), 'text/plain; charset=utf-8',
-                           {'Content-Disposition': 'attachment; filename="customer-facing-app-playbook.txt"'})
+                include_evidence = path != '/playbook-clean.txt'
+                filename = {'/playbook-clean.txt': 'playbook.txt',
+                            '/playbook-with-evidence.txt': 'playbook-with-evidence.txt',
+                            '/playbook.txt': 'customer-facing-app-playbook.txt'}[path]
+                self.reply(200, plain_text(book, origin, include_evidence=include_evidence), 'text/plain; charset=utf-8',
+                           {'Content-Disposition': f'attachment; filename="{filename}"'})
             else:
                 self.reply(200, render_playbook(book, origin), 'text/html; charset=utf-8')
             return

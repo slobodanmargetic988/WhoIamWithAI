@@ -140,12 +140,49 @@ class ServerTests(unittest.TestCase):
                 self.assertIn('https://example.com/share.png', body)
                 self.assertIn('name="robots" content="noindex,nofollow"', body)
                 self.assertNotIn('href="/playbook.txt"', body)
-            with self.assertRaises(HTTPError) as context:
-                urlopen(origin + '/playbook.txt')
-            self.assertEqual(context.exception.code, 404)
-            self.assertEqual(json.load(context.exception), {'error': 'The playbook draft is not available yet.'})
+            for path in ['/playbook.txt', '/playbook-clean.txt', '/playbook-with-evidence.txt']:
+                with self.subTest(path=path), self.assertRaises(HTTPError) as context:
+                    urlopen(origin + path)
+                self.assertEqual(context.exception.code, 404)
+                self.assertEqual(json.load(context.exception), {'error': 'The playbook draft is not available yet.'})
             with urlopen(origin + '/api/overview') as response:
                 self.assertEqual(json.load(response)['stats']['messages'], 3)
+
+    def test_two_downloads_share_rules_but_only_evidence_contains_private_sources(self):
+        from ai_archive.playbook import plain_text
+        message = messages(self.con, {'limit': ['1']})['messages'][0]
+        book = {'title': 'Example playbook', 'status': 'Draft for review', 'date': '2026-10-15',
+                'introduction': 'Example research.', 'usage': 'Apply relevant rules.',
+                'sections': [{'id': 'experience', 'title': 'Experience', 'rules': [
+                    {'id': 'CX-01', 'title': 'Working journeys', 'applies_to': 'Apps with accounts',
+                     'requirement': 'Test account creation.', 'checks': ['Verify the resulting account.'],
+                     'evidence': [{'message_id': message['id'], 'thread_id': message['thread_id'],
+                                   'project_label': 'Example', 'product_key': 'example', 'provider': 'claude',
+                                   'sent_at': message['sent_at'], 'quote': message['text'],
+                                   'context_note': 'Private interpretation for checking.'}]}]}],
+                'decisions': [], 'methodology': 'Private research notes.',
+                'snapshot': {'messages': 3, 'projects': 1, 'messages_with_previous_reply': 0}}
+        draft = self.base / 'playbook.json'
+        draft.write_text(json.dumps(book))
+        server = ArchiveServer(('127.0.0.1', 0), self.database)
+        worker = threading.Thread(target=server.serve_forever, daemon=True)
+        worker.start()
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        origin = f'http://127.0.0.1:{server.server_port}'
+        downloads = [('/playbook-clean.txt', False, 'playbook.txt'),
+                     ('/playbook-with-evidence.txt', True, 'playbook-with-evidence.txt'),
+                     ('/playbook.txt', True, 'customer-facing-app-playbook.txt')]
+        with patch('ai_archive.playbook.PLAYBOOK', draft):
+            for path, evidence, filename in downloads:
+                with self.subTest(path=path), urlopen(origin + path) as response:
+                    body = response.read().decode()
+                    self.assertEqual(body, plain_text(book, origin, include_evidence=evidence))
+                    self.assertEqual(response.headers['Content-Type'], 'text/plain; charset=utf-8')
+                    self.assertIn(f'filename="{filename}"', response.headers['Content-Disposition'])
+                    self.assertIn('Test account creation.', body)
+                    self.assertEqual('Private research notes.' in body, evidence)
+                    self.assertEqual(message['id'] in body, evidence)
 
 
 if __name__ == '__main__':

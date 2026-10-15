@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f3">
+  <title>Who I Am With AI — Your personal prompt archive</title>
+  <meta name="description" content="Your words. Across every project. Explore your human messages to Codex and Claude in one private, chronological archive.">
+  <link rel="canonical" href="__PUBLIC_ORIGIN__/">
+  <meta property="og:title" content="Who I Am With AI — Your words, across every project">
+  <meta property="og:description" content="A personal archive of your conversations with AI. One identity, every project, and a clearer picture of how you work.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="__PUBLIC_ORIGIN__/">
+  <meta property="og:image" content="__PUBLIC_ORIGIN__/share.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Who I Am With AI: Your words, across every project. A calm personal archive connecting projects, conversations, and your ideas.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Who I Am With AI — Your words, across every project">
+  <meta name="twitter:description" content="A personal archive of your conversations with AI. One identity, every project, and a clearer picture of how you work.">
+  <meta name="twitter:image" content="__PUBLIC_ORIGIN__/share.png">
+  <meta name="twitter:image:alt" content="Who I Am With AI: Your words, across every project. A calm personal archive connecting projects, conversations, and your ideas.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to messages</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Project navigation">
+      <a class="brand" href="/" aria-label="Who I Am With AI home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>who i am<span class="brand-sub">with AI</span></span>
+      </a>
+      <div class="workspace-label"><span class="workspace-avatar" aria-hidden="true">Y</span><span>Your personal archive<small>One person. Every profile.</small></span></div>
+      <button class="nav-all active" id="all-projects" type="button" aria-current="page"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="12" y="3" width="5" height="5" rx="1"/><rect x="3" y="12" width="5" height="5" rx="1"/><rect x="12" y="12" width="5" height="5" rx="1"/></svg><span>All projects</span><span class="nav-count" id="project-total">—</span></button>
+      <a class="playbook-nav" href="/playbook">Playbook draft <span aria-hidden="true">↗</span></a>
+      <div class="sidebar-section-label"><span>YOUR PROJECTS</span><span id="sidebar-project-count"></span></div>
+      <label class="project-search"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><input id="project-search" type="search" placeholder="Find a project…" aria-label="Find a project"></label>
+      <nav class="project-list" id="project-list" aria-label="Projects"><p class="sidebar-placeholder">Loading your projects…</p></nav>
+      <div class="sidebar-bottom"><div class="local-badge"><span class="status-dot"></span> Local &amp; private</div><p>Your archive stays on this computer.</p><button class="text-button source-link" id="sources-button" type="button">View import sources <span aria-hidden="true">↗</span></button></div>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
+    <main id="main" class="main">
+      <header class="topbar"><div class="breadcrumb"><button class="menu-toggle icon-button" id="menu-toggle" type="button" aria-label="Open project navigation" aria-expanded="false" aria-controls="sidebar"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg></button><span>Personal archive</span><span class="breadcrumb-separator" aria-hidden="true">/</span><strong id="breadcrumb-scope">All projects</strong></div><button id="refresh-button" class="refresh-button" type="button" aria-label="Refresh archive"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 7a6.5 6.5 0 1 0 .2 5M16 3v4h-4"/></svg><span>Refresh archive</span></button></header>
+      <div class="main-content">
+        <section class="intro" aria-labelledby="page-title"><div><div class="eyebrow"><span></span> A RECORD OF HOW YOU WORK</div><h1 id="page-title">Your words.<br><em>Across every project.</em></h1><p class="intro-description">Every prompt is a little piece of your process.<br>Find the ideas, decisions, and direction you gave your AI.</p></div><div class="identity-note"><div class="identity-symbol" aria-hidden="true"><span></span><span></span><span></span></div><p>Many conversations.<br><strong>One you.</strong></p><span>Codex + Claude · all profiles</span></div></section>
+
+        <section class="stats-grid" aria-label="Archive statistics"><div class="stat"><span class="stat-label">HUMAN MESSAGES</span><div><strong id="stat-messages">—</strong><span class="stat-detail">your words, preserved</span></div></div><div class="stat"><span class="stat-label">PROJECTS</span><div><strong id="stat-projects">—</strong><span class="stat-detail">individual workspaces</span></div></div><div class="stat"><span class="stat-label">CONVERSATIONS</span><div><strong id="stat-threads">—</strong><span class="stat-detail">threads to explore</span></div></div><div class="stat"><span class="stat-label">HISTORY SOURCES</span><div><strong id="stat-profiles">—</strong><span class="stat-detail">one shared identity</span></div></div></section>
+
+        <section class="archive" aria-labelledby="archive-title">
+          <div class="archive-heading"><div><h2 id="archive-title">The archive <span id="scope-tag" class="scope-tag">All projects</span></h2><p id="scope-description">Your messages, in the order you sent them.</p></div><div class="import-status" id="import-status"><span class="status-dot"></span><span>Checking archive…</span></div></div>
+          <div id="overview-error" class="error-banner" role="alert" hidden></div>
+          <div id="archive-notices" class="archive-notices" aria-label="Archive completeness" hidden></div>
+          <div id="review-notice" class="review-notice" hidden><span id="review-description"></span> <button id="review-toggle" class="text-button" type="button">Review records →</button></div>
+          <form class="filter-bar" id="filter-form" role="search"><label class="message-search"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><input type="search" id="message-search" placeholder="Search your words…" aria-label="Search message text"><kbd aria-hidden="true">/</kbd></label><label class="provider-filter"><span class="sr-only">Filter by AI provider</span><select id="provider-filter"><option value="">All AI providers</option><option value="codex">Codex</option><option value="claude">Claude</option></select><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m5 6 3 3 3-3"/></svg></label><button class="date-toggle filter-button" id="date-toggle" type="button" aria-expanded="false" aria-controls="date-filters"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="5" width="14" height="12" rx="2"/><path d="M6 3v4m8-4v4M3 9h14"/></svg><span>Date</span></button></form>
+          <div class="date-filters" id="date-filters" hidden><label>From <input type="date" id="date-from"></label><label>Through <input type="date" id="date-to"></label><button class="text-button" type="button" id="clear-dates">Clear dates</button><span class="date-note">Date filters use UTC.</span></div>
+          <div class="archive-body" id="archive-body"><aside class="thread-panel" id="thread-panel" aria-label="Project conversations" hidden><div class="thread-panel-heading"><span>CONVERSATIONS</span><span id="thread-count"></span></div><button class="thread-item active" type="button" id="all-threads">All conversations<span>Project timeline</span></button><div id="thread-list"></div></aside><div class="timeline-panel"><div class="results-bar"><span id="results-count" role="status" aria-live="polite">Loading messages…</span><span class="chronology-label"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5 3v10m-3-3 3 3 3-3m2-7h4m-4 4h3m-3 4h2"/></svg>Oldest first</span></div><div id="messages" class="messages" aria-busy="true"><div class="message-skeleton"></div><div class="message-skeleton"></div></div><div class="pagination" id="pagination" hidden><button class="secondary-button" id="previous-page" type="button">← Previous</button><span id="page-label"></span><button class="secondary-button" id="next-page" type="button">Next →</button></div></div></div>
+        </section>
+        <footer class="main-footer"><span>Built from your prompts. Ready for what comes next.</span><span><span class="status-dot"></span> <span id="footer-origin">Human messages only</span></span></footer>
+      </div>
+    </main>
+  </div>
+  <dialog id="sources-dialog" aria-labelledby="sources-title"><div class="dialog-heading"><div><div class="eyebrow">YOUR ARCHIVE</div><h2 id="sources-title">Import sources</h2></div><button class="icon-button dialog-close" type="button" aria-label="Close import sources">×</button></div><p class="dialog-intro">Profiles are sources, not separate people. All messages belong to your single identity.</p><div id="sources-content"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

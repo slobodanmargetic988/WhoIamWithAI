@@ -1,5 +1,7 @@
 # Who I Am With AI
 
+[![Support me](https://img.shields.io/badge/Support%20me-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/slobodanmargetic988)
+
 A local archive of the instructions you gave Codex and Claude. Browse your words by project, conversation, and time, across every discovered local profile and backup, with one shared identity.
 
 Part of the [Weeyuga apps ecosystem](https://weeyuga.com). If you like what I’m building, follow along on [Instagram](https://www.instagram.com/weeyuga?psln=emk2cHYwdW4zNmM4), [LinkedIn](https://www.linkedin.com/in/slobodan-margeti%C4%87-9a1229151/), [X](https://x.com/WeeyugaFounder) or [Facebook](https://www.facebook.com/share/1GhcVRJ7vo/). If you can, [support my work on GitHub Sponsors](https://github.com/sponsors/slobodanmargetic988).
